@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
+import {withFormik} from 'formik';
+import { validate } from '@babel/types';
+
 class Contact extends Component{
 
   constructor (props){
@@ -89,4 +92,21 @@ class Contact extends Component{
         )
     }
 }
-export default Contact;
+export default withFormik({
+  mapPropsToValues: () => ({
+    name: '',
+    email: '',
+    phone: '',
+    message: '',
+  }),
+  validate: values => {
+    const errors = {};
+
+     if(!values.email) {
+       errors.email = 'required';
+     }
+  },
+  handleSubmit: (values, {setSubmitting}) => {
+    alert('youve submitted the form');
+  }
+}) (Contact);
